@@ -6,7 +6,9 @@ const routes = express.Router();
 // @Route GET /
 
 routes.get('/', (req, res) => {
-  res.render('login');
+  res.render('login', {
+    layout: 'login',
+  });
 });
 
 // @desc Dashboard
