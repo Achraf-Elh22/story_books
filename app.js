@@ -5,6 +5,7 @@ const exphbs = require('express-handlebars');
 const session = require('express-session');
 const path = require('path');
 const passport = require('passport');
+// const MongoStore = require()
 
 const connectDB = require('./config/db');
 
@@ -36,6 +37,7 @@ app.use(
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: false,
+    // store:
   })
 );
 
