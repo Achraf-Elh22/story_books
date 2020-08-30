@@ -17,7 +17,9 @@ routes.get('/', ensureGuest, (req, res) => {
 // @Route GET /dashboard
 
 routes.get('/dashboard', ensureAuth, (req, res) => {
-  res.render('dashboard');
+  res.render('dashboard', {
+    name: req.user.firstName,
+  });
 });
 
 module.exports = routes;
