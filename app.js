@@ -1,39 +1,39 @@
-const express = require("express");
-const dotenv = require("dotenv");
-const morgan = require("morgan");
-const exphbs = require("express-handlebars");
-const session = require("express-session");
-const path = require("path");
-const passport = require("passport");
+const express = require('express');
+const dotenv = require('dotenv');
+const morgan = require('morgan');
+const exphbs = require('express-handlebars');
+const session = require('express-session');
+const path = require('path');
+const passport = require('passport');
 
-const connectDB = require("./config/db");
+const connectDB = require('./config/db');
 
 // Load Config
-dotenv.config({ path: "./config/config.env" });
+dotenv.config({ path: './config/config.env' });
 
 // Passport Config
-require("./config/passport")(passport);
+require('./config/passport')(passport);
 
 connectDB();
 
 const app = express();
 
 // Logging
-if (process.env.NODE_ENV === "development") {
-  app.use(morgan("dev"));
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
 }
 
 // Static files
-app.use(express.static(path.join(__dirname, "/public")));
+app.use(express.static(path.join(__dirname, '/public')));
 
 // View engine
-app.engine(".hbs", exphbs({ defaultLayout: "main", extname: ".hbs" }));
-app.set("view engine", ".hbs");
+app.engine('.hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }));
+app.set('view engine', '.hbs');
 
 // Sessions
 app.use(
   session({
-    secret: "keyboard cat",
+    secret: 'keyboard cat',
     resave: false,
     saveUninitialized: false,
   })
@@ -44,7 +44,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Routes
-app.use("/", require("./routes/index"));
+app.use('/', require('./routes/index'));
+app.use('/auth', require('./routes/auth'));
 
 // Server
 const PORT = process.env.PORT || 3000;
