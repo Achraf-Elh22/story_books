@@ -10,6 +10,9 @@ const MongoStore = require('connect-mongo')(session);
 
 const connectDB = require('./config/db');
 
+// Helpers
+const { formatDate } = require('./helpers/hbs');
+
 // Load Config
 dotenv.config({ path: './config/config.env' });
 
@@ -33,7 +36,10 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.static(path.join(__dirname, '/public')));
 
 // View engine
-app.engine('.hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }));
+app.engine(
+  '.hbs',
+  exphbs({ helpers: { formatDate }, defaultLayout: 'main', extname: '.hbs' })
+);
 app.set('view engine', '.hbs');
 
 // Sessions
