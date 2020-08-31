@@ -1,6 +1,7 @@
 const express = require('express');
 
 const { ensureAuth, ensureGuest } = require('../config/middleware/auth');
+const Story = require('../models/story');
 
 const routes = express.Router();
 
@@ -16,10 +17,17 @@ routes.get('/', ensureGuest, (req, res) => {
 // @desc Dashboard
 // @Route GET /dashboard
 
-routes.get('/dashboard', ensureAuth, (req, res) => {
-  res.render('dashboard', {
-    name: req.user.firstName,
-  });
+routes.get('/dashboard', ensureAuth, async (req, res) => {
+  try {
+    const stories = Story.find({ user: req.user.id }).lean();
+    res.render('dashboard', {
+      name: req.user.firstName,
+      stories,
+    });
+  } catch (err) {
+    console.error(err);
+    res.render('error/500');
+  }
 });
 
 module.exports = routes;
