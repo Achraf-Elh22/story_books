@@ -11,7 +11,13 @@ const MongoStore = require('connect-mongo')(session);
 const connectDB = require('./config/db');
 
 // Helpers
-const { formatDate, truncate, stripTags, editIcon } = require('./helpers/hbs');
+const {
+  formatDate,
+  truncate,
+  stripTags,
+  editIcon,
+  select,
+} = require('./helpers/hbs');
 
 // Load Config
 dotenv.config({ path: './config/config.env' });
@@ -39,7 +45,7 @@ app.use(express.static(path.join(__dirname, '/public')));
 app.engine(
   '.hbs',
   exphbs({
-    helpers: { formatDate, truncate, stripTags, editIcon },
+    helpers: { formatDate, truncate, stripTags, editIcon, select },
     defaultLayout: 'main',
     extname: '.hbs',
   })
