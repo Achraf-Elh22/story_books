@@ -63,4 +63,24 @@ routes.get('/edit/:id', ensureAuth, async (req, res) => {
   }
 });
 
+// @desc  update story
+// @route PUT /stories/:id
+
+routes.put('/:id', ensureAuth, async (req, res) => {
+  let story = await Story.findOne({ _id: req.params.id }).lean();
+  if (!story) {
+    res.render('stories/404');
+  }
+
+  if (story.user != req.user.id) {
+    res.redirect('/stories');
+  } else {
+    story = await Story.findOneAndUpdate({ _id: req.params.id }, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    res.redirect('/dashboard');
+  }
+});
+
 module.exports = routes;
